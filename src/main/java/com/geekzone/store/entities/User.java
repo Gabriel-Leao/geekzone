@@ -6,6 +6,7 @@ import com.geekzone.store.utils.DateFormatterUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,11 +14,12 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 @NoArgsConstructor
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -40,14 +42,30 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    public User (UserRequest userRequestData, String password) {
+    public User (UserRequest userRequestData) {
         this.email = userRequestData.getEmail();
         this.name = userRequestData.getName();
-        this.password = password;
-        this.birthdate = LocalDate.parse(userRequestData.getBirthdate(), DateFormatterUtil.dateFormatter);
-        this.role = (userRequestData.getRole() == null || userRequestData.getRole().isEmpty())
+        this.password = userRequestData.getPassword();
+        this.birthdate = transformStringToLocalDate(userRequestData.getBirthdate());
+        this.role = transformStringToRole(userRequestData.getRole());
+    }
+
+    private LocalDate transformStringToLocalDate(String date) {
+        return LocalDate.parse(date, DateFormatterUtil.dateFormatter);
+    }
+
+    private Role transformStringToRole(String role) {
+        return role == null || role.isEmpty()
                 ? Role.USER
-                : Role.valueOf(userRequestData.getRole().toUpperCase());
+                : Role.valueOf(role.toUpperCase());
+    }
+
+    public void setRole(String role) {
+        this.role = transformStringToRole(role);
+    }
+
+    public void setBirthdate(String birthdate) {
+        this.birthdate = transformStringToLocalDate(birthdate);
     }
 
     @PrePersist
