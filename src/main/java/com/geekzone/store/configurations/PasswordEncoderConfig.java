@@ -1,4 +1,4 @@
-package com.geekzone.store.securities;
+package com.geekzone.store.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

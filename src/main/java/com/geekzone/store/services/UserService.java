@@ -24,6 +24,7 @@ public class UserService {
 
     public User createUser(UserRequest userData) {
         verifyIfEmailExists(userData.getEmail());
+        userData.setPassword(passwordEncoder.encode(userData.getPassword()));
         User user = new User(userData);
         return userRepository.save(user);
     }
