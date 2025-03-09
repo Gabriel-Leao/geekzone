@@ -1,6 +1,7 @@
 package com.geekzone.store.services;
 
 import com.geekzone.store.dtos.UserRequest;
+import com.geekzone.store.dtos.UserResponse;
 import com.geekzone.store.entities.User;
 import com.geekzone.store.exceptions.ConflictException;
 import com.geekzone.store.exceptions.NotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -20,20 +22,25 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<User> getUsers() { return userRepository.findAll(); }
+    public List<UserResponse> getUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(UserResponse::new).collect(Collectors.toList());
+    }
 
-    public User createUser(UserRequest userData) {
+    public UserResponse createUser(UserRequest userData) {
         verifyIfEmailExists(userData.getEmail());
         userData.setPassword(passwordEncoder.encode(userData.getPassword()));
         User user = new User(userData);
-        return userRepository.save(user);
+        userRepository.save(user);
+        return new UserResponse(user);
     }
 
-    public User getUserById(String id) {
-        return verifyIfUserExists(id);
+    public UserResponse getUserById(String id) {
+        User user = verifyIfUserExists(id);
+        return new UserResponse(user);
     }
 
-    public User updateUser(String id, UserRequest userData) {
+    public UserResponse updateUser(String id, UserRequest userData) {
         User user = verifyIfUserExists(id);
         User emailAlreadyExists = userRepository.findByEmail(userData.getEmail());
         if (emailAlreadyExists != null && !emailAlreadyExists.getId().equals(id)) {
@@ -44,7 +51,8 @@ public class UserService {
         user.setBirthdate(userData.getBirthdate());
         user.setRole(userData.getRole());
         user.setEmail(userData.getEmail());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return new UserResponse(user);
     }
 
     public void deleteUser(String id) {
