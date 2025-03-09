@@ -7,6 +7,10 @@ CREATE TABLE products (
     image_url VARCHAR(255) NOT NULL,
     release_date DATE NOT NULL,
     category VARCHAR(50) NOT NULL,
+    brand_id char(36) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (brand_id) REFERENCES brands(id) ON DELETE RESTRICT,
+    CHECK (quantity >= 0)
 );
