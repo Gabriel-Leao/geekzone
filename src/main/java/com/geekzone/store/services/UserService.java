@@ -1,7 +1,7 @@
 package com.geekzone.store.services;
 
-import com.geekzone.store.dtos.UserRequest;
-import com.geekzone.store.dtos.UserResponse;
+import com.geekzone.store.dtos.user.UserRequest;
+import com.geekzone.store.dtos.user.UserResponse;
 import com.geekzone.store.entities.User;
 import com.geekzone.store.exceptions.ConflictException;
 import com.geekzone.store.exceptions.NotFoundException;
@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,11 +62,11 @@ public class UserService {
     }
 
     private User verifyIfUserExists(String id) {
-        User user = userRepository.findById(id);
-        if (user == null) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
             throw new NotFoundException("User not found.");
         }
-        return user;
+        return user.get();
     }
 
     private void verifyIfEmailExists(String email) {

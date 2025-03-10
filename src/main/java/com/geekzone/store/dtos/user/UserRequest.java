@@ -1,4 +1,4 @@
-package com.geekzone.store.dtos;
+package com.geekzone.store.dtos.user;
 
 import com.geekzone.store.validations.birthdate.ValidBirthdate;
 import com.geekzone.store.validations.role.ValidRole;

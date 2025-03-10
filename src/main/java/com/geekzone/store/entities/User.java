@@ -1,6 +1,6 @@
 package com.geekzone.store.entities;
 
-import com.geekzone.store.dtos.UserRequest;
+import com.geekzone.store.dtos.user.UserRequest;
 import com.geekzone.store.models.Role;
 import com.geekzone.store.utils.DateFormatterUtil;
 import jakarta.persistence.*;
@@ -46,12 +46,8 @@ public class User {
         this.email = userRequestData.getEmail();
         this.name = userRequestData.getName();
         this.password = userRequestData.getPassword();
-        this.birthdate = transformStringToLocalDate(userRequestData.getBirthdate());
-        this.role = transformStringToRole(userRequestData.getRole());
-    }
-
-    private LocalDate transformStringToLocalDate(String date) {
-        return LocalDate.parse(date, DateFormatterUtil.dateFormatter);
+        setRole(userRequestData.getRole());
+        setBirthdate(userRequestData.getBirthdate());
     }
 
     private Role transformStringToRole(String role) {
@@ -65,7 +61,7 @@ public class User {
     }
 
     public void setBirthdate(String birthdate) {
-        this.birthdate = transformStringToLocalDate(birthdate);
+        this.birthdate = DateFormatterUtil.transformStringToLocalDate(birthdate);
     }
 
     @PrePersist

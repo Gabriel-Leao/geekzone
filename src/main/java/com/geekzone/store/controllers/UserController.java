@@ -1,18 +1,16 @@
 package com.geekzone.store.controllers;
 
-import com.geekzone.store.dtos.UserRequest;
-import com.geekzone.store.dtos.UserResponse;
+import com.geekzone.store.dtos.user.UserRequest;
+import com.geekzone.store.dtos.user.UserResponse;
 import com.geekzone.store.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@Controller
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;

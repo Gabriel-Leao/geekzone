@@ -1,4 +1,4 @@
-package com.geekzone.store.dtos;
+package com.geekzone.store.dtos.user;
 
 import com.geekzone.store.entities.User;
 import lombok.Getter;
