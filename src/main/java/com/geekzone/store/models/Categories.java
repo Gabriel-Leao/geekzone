@@ -1,6 +1,6 @@
 package com.geekzone.store.models;
 
-public enum Category {
+public enum Categories {
     GAMES("Games"),
     BOOKS("Books"),
     MUSIC_ALBUMS("Music Albums"),
@@ -8,7 +8,7 @@ public enum Category {
 
     private final String displayName;
 
-    Category(String displayName) {
+    Categories(String displayName) {
         this.displayName = displayName;
     }
 

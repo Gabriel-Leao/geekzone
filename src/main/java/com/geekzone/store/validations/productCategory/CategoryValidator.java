@@ -1,6 +1,6 @@
 package com.geekzone.store.validations.productCategory;
 
-import com.geekzone.store.models.Category;
+import com.geekzone.store.models.Categories;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class CategoryValidator implements ConstraintValidator<ValidCategory, String> {
 
-    private static final Set<String> VALID_CATEGORIES = Stream.of(Category.values())
+    private static final Set<String> VALID_CATEGORIES = Stream.of(Categories.values())
             .map(Enum::name)
             .collect(Collectors.toSet());
 

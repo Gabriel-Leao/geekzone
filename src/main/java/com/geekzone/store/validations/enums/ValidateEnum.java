@@ -1,4 +1,4 @@
-package com.geekzone.store.validations.uuid;
+package com.geekzone.store.validations.enums;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -10,11 +10,13 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = UUIDValidator.class)
-public @interface ValidUUID {
-    String message() default "Invalid UUID format";
+@Constraint(validatedBy = EnumValidator.class)
+public @interface ValidateEnum {
+    String message() default "Invalid option. Opções permitidas: {options}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
+    Class<? extends Enum<?>> enumClass();
 }

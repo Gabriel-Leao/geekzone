@@ -1,7 +1,7 @@
 package com.geekzone.store.entities;
 
 import com.geekzone.store.dtos.product.ProductRequest;
-import com.geekzone.store.models.Category;
+import com.geekzone.store.models.Categories;
 import com.geekzone.store.utils.DateFormatterUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "products")
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(nullable = false)
@@ -38,7 +38,7 @@ public class Product {
     private String image;
 
     @Column(nullable = false)
-    private Category category;
+    private Categories category;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", nullable = false)
@@ -63,8 +63,8 @@ public class Product {
         setReleaseDate(productRequestData.getReleaseDate());
     }
 
-    private Category transformStringToCategory(String category) {
-        return Category.valueOf(category.toUpperCase());
+    private Categories transformStringToCategory(String category) {
+        return Categories.valueOf(category.toUpperCase());
     }
 
     public void setCategory(String category) {

@@ -1,8 +1,8 @@
 package com.geekzone.store.services;
 
-import com.geekzone.store.dtos.user.UserRequest;
-import com.geekzone.store.dtos.user.UserResponse;
-import com.geekzone.store.entities.User;
+import com.geekzone.store.dtos.user.request.UpsetUser;
+import com.geekzone.store.dtos.user.response.UserInfo;
+import com.geekzone.store.entities.user.User;
 import com.geekzone.store.exceptions.ConflictException;
 import com.geekzone.store.exceptions.NotFoundException;
 import com.geekzone.store.repositories.UserRepository;
@@ -23,28 +23,28 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public List<UserResponse> getUsers() {
+    public List<UserInfo> getUsers() {
         List<User> users = userRepository.findAll();
-        return users.stream().map(UserResponse::new).collect(Collectors.toList());
+        return users.stream().map(UserInfo::new).collect(Collectors.toList());
     }
 
-    public UserResponse createUser(UserRequest userData) {
+    public UserInfo createUser(UpsetUser userData) {
         verifyIfEmailExists(userData.getEmail());
         userData.setPassword(passwordEncoder.encode(userData.getPassword()));
         User user = new User(userData);
         userRepository.save(user);
-        return new UserResponse(user);
+        return new UserInfo(user);
     }
 
-    public UserResponse getUserById(String id) {
+    public UserInfo getUserById(long id) {
         User user = verifyIfUserExists(id);
-        return new UserResponse(user);
+        return new UserInfo(user);
     }
 
-    public UserResponse updateUser(String id, UserRequest userData) {
+    public UserInfo updateUser(long id, UpsetUser userData) {
         User user = verifyIfUserExists(id);
         User emailAlreadyExists = userRepository.findByEmail(userData.getEmail());
-        if (emailAlreadyExists != null && !emailAlreadyExists.getId().equals(id)) {
+        if (emailAlreadyExists != null && !(emailAlreadyExists.getId() == id)) {
             throw new ConflictException("A user with this email already exists.");
         }
         user.setPassword(passwordEncoder.encode(userData.getPassword()));
@@ -53,15 +53,15 @@ public class UserService {
         user.setRole(userData.getRole());
         user.setEmail(userData.getEmail());
         userRepository.save(user);
-        return new UserResponse(user);
+        return new UserInfo(user);
     }
 
-    public void deleteUser(String id) {
+    public void deleteUser(long id) {
         User user = verifyIfUserExists(id);
         userRepository.delete(user);
     }
 
-    private User verifyIfUserExists(String id) {
+    private User verifyIfUserExists(long id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isEmpty()) {
             throw new NotFoundException("User not found.");

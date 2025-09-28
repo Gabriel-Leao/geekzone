@@ -1,6 +1,6 @@
 package com.geekzone.store.models;
 
-public enum Role {
+public enum Roles {
     USER,
     ADMIN
 }

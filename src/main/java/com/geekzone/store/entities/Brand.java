@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "brands")
 public class Brand {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
 
     @Column(nullable = false)

@@ -2,7 +2,6 @@ package com.geekzone.store.dtos.product;
 
 import com.geekzone.store.validations.productCategory.ValidCategory;
 import com.geekzone.store.validations.releaseDate.ValidReleaseDate;
-import com.geekzone.store.validations.uuid.ValidUUID;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -38,6 +37,6 @@ public class ProductRequest {
     @NotBlank(message = "Category is required")
     private String category;
 
-    @ValidUUID
-    private String brandID;
+    @NotNull(message = "BrandID is required")
+    private long brandID;
 }

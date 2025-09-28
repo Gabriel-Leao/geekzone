@@ -1,7 +1,7 @@
 package com.geekzone.store.controllers;
 
-import com.geekzone.store.dtos.user.UserRequest;
-import com.geekzone.store.dtos.user.UserResponse;
+import com.geekzone.store.dtos.user.request.UpsetUser;
+import com.geekzone.store.dtos.user.response.UserInfo;
 import com.geekzone.store.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,31 +20,31 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<UserResponse>> getUsers() {
-        List<UserResponse> users = userService.getUsers();
+    public ResponseEntity<List<UserInfo>> getUsers() {
+        List<UserInfo> users = userService.getUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUserByID(@PathVariable String id) {
-        UserResponse user = userService.getUserById(id);
+    public ResponseEntity<UserInfo> getUserByID(@PathVariable long id) {
+        UserInfo user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest userData) {
-        UserResponse createdUser = userService.createUser(userData);
+    public ResponseEntity<UserInfo> createUser(@Valid @RequestBody UpsetUser userData) {
+        UserInfo createdUser = userService.createUser(userData);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable String id, @Valid @RequestBody UserRequest userData) {
-        UserResponse updatedUser = userService.updateUser(id, userData);
+    public ResponseEntity<UserInfo> updateUser(@PathVariable long id, @Valid @RequestBody UpsetUser userData) {
+        UserInfo updatedUser = userService.updateUser(id, userData);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

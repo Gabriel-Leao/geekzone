@@ -1,6 +1,6 @@
 package com.geekzone.store.repositories;
 
-import com.geekzone.store.entities.User;
+import com.geekzone.store.entities.user.User;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
-    @NotNull Optional<User> findById(@NotNull String id);
+    @NotNull Optional<User> findById(long id);
 }
